@@ -1,0 +1,109 @@
+<div class="create-class-content" ng-controller="ClassController">
+	<form>
+		<div class="row">
+			<div class="col-md-6 info">
+				<div class="panel panel-info info">
+					<div class="panel-heading">
+						<h5>Planned implementation info</h5>
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-5">
+								<h5>Site</h5>
+							</div>
+							<div class="col-md-6">
+								<input type="text" class="form-control styleInput"
+									id="inputSuccess3" ng-model="newClass.site">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-5">
+								<h5>Start date</h5>
+							</div>
+							<div class="col-md-6" id="sandbox-container">
+								<input type="text" class="form-control"
+									ng-model="newClass.plannedStartDate">
+								<script type="text/javascript">
+									$('#sandbox-container input')
+											.datepicker({});
+								</script>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-5">
+								<h5>End date</h5>
+							</div>
+							<div class="col-md-6" id="sandbox-container">
+								<input type="text" class="form-control"
+									ng-model="newClass.plannedEndDate">
+								<script type="text/javascript">
+									$('#sandbox-container input')
+											.datepicker({});
+								</script>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-5">
+								<h5>Learning time (hrs)</h5>
+							</div>
+							<div class="col-md-2">
+								<input type="number" class="form-control styleInput"
+									id="inputSuccess3" ng-model="newClass.plannedLearningTime">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-5">
+								<h5>Number of trainees</h5>
+							</div>
+							<div class="col-md-2">
+								<input type="number" class="form-control styleInput"
+									id="inputSuccess3" ng-model="newClass.planCountStudent">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-5">
+								<h5>Expense</h5>
+							</div>
+							<div class="col-md-4">
+								<input type="number" class="form-control styleInput"
+									id="inputSuccess3" ng-model="newClass.plannedExpense">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-5">
+								<h5>Project code</h5>
+							</div>
+							<div class="col-md-6">
+								<input type="text" class="form-control styleInput"
+									id="inputSuccess3" ng-model="newClass.projectCode">
+							</div>
+						</div>
+						
+						<div class="row" ng-show="newClass.id !== undefined">
+							<div class="col-md-5">
+								<h5>Name</h5>
+							</div>
+							<div class="col-md-6">
+								<input type="text" class="form-control styleInput"
+									id="inputSuccess3" ng-model="newClass.name">
+							</div>
+						</div>
+						<div class="row" ng-show="newClass.id !== undefined">
+							<div class="col-md-5">
+								<h5>Status</h5>
+							</div>
+							<div class="col-md-6">
+								<input type="text" class="form-control styleInput"
+									id="inputSuccess3" ng-model="newClass.status">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<button type="submit"
+			ng-click="newClass.id !== undefined ? updatePlanning() : createClass()"
+			class="btn btn-default dropdown-toggle btnsave">{{newClass.id
+			!== undefined ? 'Update' : 'Save'}}</button>
+	</form>
+</div>

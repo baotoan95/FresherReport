@@ -1,0 +1,262 @@
+<div class="container-fluid fade-in" id="main-section" ng-controller="ClassController">
+	<!-- Import class -->
+	<div class="modal fade" id="import-class" tabindex="-1" role="dialog"
+		aria-labelledby="import-class">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="import-class">Import Classes</h4>
+				</div>
+				<div class="modal-body">
+					<form name="formUploadClasses">
+						<input type="file" ngf-select ng-model="classesFile" name="file"
+							accept=".xlsx" ngf-max-size="2MB" required
+							ngf-model-invalid="errorFile"> <i
+							ng-show="formUploadClasses.file.$error.required">*required</i> <br>
+						<span ng-show="classesFile.result">Upload Successful</span> 
+						<span class="err" ng-show="errorMsg">{{errorMsg}}</span>
+					</form>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<div id="progress" class="progress">
+							<div class="progress-bar" role="progressbar" aria-valuemin="0"
+								aria-valuemax="100" style="width: {{classesFile.progress}}%"
+								ng-bind="classesFile.progress + '%'"></div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-default"
+						ng-disabled="!formUploadClasses.$valid"
+						ng-click="uploadClasses(classesFile)">Upload</button>
+					<button class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Import class information -->
+	<div class="modal fade" id="import-class-info" tabindex="-1"
+		role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="import-class-info">Import Class
+						Information</h4>
+				</div>
+				<div class="modal-body">
+					<form name="formUploadClassInfo">
+						<input type="file" ngf-select ng-model="classInfoFile" name="file"
+							accept=".xlsx" ngf-max-size="2MB" required
+							ngf-model-invalid="errorFile" multiple="multiple"> <i
+							ng-show="formUploadClassInfo.file.$error.required">*required</i>
+						<br> <span ng-show="classInfoFile.result">Upload
+							Successful</span> <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
+					</form>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<div id="progress" class="progress">
+							<div class="progress-bar" role="progressbar" aria-valuemin="0"
+								aria-valuemax="100" style="width: {{classInfoFile.progress}}%"
+								ng-bind="classInfoFile.progress + '%'"></div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-default"
+						ng-disabled="!formUploadClassInfo.$valid"
+						ng-click="uploadClassInfo(classInfoFile)">Upload</button>
+					<button class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Import class internship -->
+	<div class="modal fade" id="import-internships" tabindex="-1"
+		role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="import-internships">Import Class
+						Internships</h4>
+				</div>
+				<div class="modal-body">
+					<form name="formUploadInternships">
+						<input type="file" ngf-select ng-model="internshipsFile"
+							name="file" accept=".xlsx" ngf-max-size="2MB" required
+							ngf-model-invalid="errorFile" multiple="multiple"> <i
+							ng-show="formUploadInternships.file.$error.required">*required</i>
+						<br> 
+						<span ng-show="internshipsFile.result">Upload Successful</span> 
+						<span class="err" ng-show="errorMsg">{{errorMsg}}</span>
+					</form>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<div id="progress" class="progress">
+							<div class="progress-bar" role="progressbar" aria-valuemin="0"
+								aria-valuemax="100" style="width: {{internshipsFile.progress}}%"
+								ng-bind="internshipsFile.progress + '%'"></div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-default"
+						ng-disabled="!formUploadInternships.$valid"
+						ng-click="uploadInternships(internshipsFile)">Upload</button>
+					<button class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div ng-show="authenticated">
+	<button type="button" class="btn btn-primary pull-left"
+		data-toggle="modal" data-target="#import-class"
+		style="margin-bottom: 20px;">Import Classes</button>
+	<button type="button" class="btn btn-primary pull-left"
+		data-toggle="modal" data-target="#import-class-info"
+		style="margin: 0 10px 20px 10px;">Import Class Information</button>
+	<button type="button" class="btn btn-primary pull-left"
+		data-toggle="modal" data-target="#import-internships"
+		style="margin: 0 10px 20px 10px;">Import Internships</button>
+	<button ui-sref="createclass" class="btn btn-primary">Add Class Planning</button>
+	</div>
+
+	<!-- Filter panel -->
+	<div class="row">
+		<div class="col-sm-12 col-md-12">
+			<button class="btn btn-primary" type="button" data-toggle="collapse"
+				data-target="#filter-panel" aria-expanded="false"
+				aria-controls="filter-panel">
+				<span class="glyphicon glyphicon-align-justify"></span> Filter
+			</button>
+			<form class="form-inline pull-right" style="display: inline-block;">
+				<div class="form-group">
+					<label for="page-size">Page size:</label> <input type="number"
+						id="page-size" ng-model="pageSize" ng-change="changePageSize()"
+						class="form-control" />
+				</div>
+			</form>
+			<div class="collapse" id="filter-panel">
+				<div class="well">
+					<form class="row">
+						<div class="form-group col-md-3">
+							<label for="name">Name</label> <input type="text"
+								class="form-control" id="name" ng-model="filterClass.name">
+						</div>
+						<div class="form-group col-md-3">
+							<label for="type">Type</label> <input type="text"
+								class="form-control" id="type" ng-model="filterClass.group.name">
+						</div>
+						<div class="form-group col-md-3">
+							<label for="status">Status</label> <input type="text"
+								class="form-control" id="status" ng-model="filterClass.status">
+						</div>
+						<hr class="col-md-12" />
+						<div class="form-group col-md-3">
+							<input type="checkbox" ng-model="exactMatch" /> <label
+								for="university">Exact match</label>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12 col-sm-12">
+			<table ng-if="classes.length > 0" class="table table-hover"
+				style="border: 1px solid #BCD5D5;">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Plan Count</th>
+						<th>Current Count</th>
+						<th>Start Date</th>
+						<th>End Date</th>
+						<th>Head Teacher</th>
+						<th>Type</th>
+						<th>Status</th>
+						<th>Issues</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="aClass in classes | filter:filterClass:exactMatch">
+						<td ng-click="showClassDetail(aClass)">{{aClass.name }}</td>
+						<td ng-click="showClassDetail(aClass)">{{aClass.planCountStudent
+							}}</td>
+						<td ng-click="showClassDetail(aClass)">{{aClass.currentCountStudent
+							}}</td>
+						<td ng-click="showClassDetail(aClass)">{{aClass.plannedStartDate
+							| date:'dd/MM/yyyy'}}</td>
+						<td ng-click="showClassDetail(aClass)">{{aClass.plannedEndDate
+							| date:'dd/MM/yyyy'}}</td>
+						<td ng-click="showClassDetail(aClass)">{{aClass.headTeacher.fullName
+							}}</td>
+						<td ng-click="showClassDetail(aClass)">{{aClass.group.name
+							}}</td>
+						<td ng-click="showClassDetail(aClass)">{{aClass.status }}</td>
+						<td><button ng-click="showIssue(aClass)"
+								class="btn btn-primary" type="button" data-toggle="modal"
+								data-target="#issues-modal">Issues</button></td>
+					</tr>
+				</tbody>
+			</table>
+			<div ng-if="classes.length === 0" class="alert alert-danger"
+				role="alert">No class found</div>
+		</div>
+	</div>
+	
+	<ng-issue-solution-popup></ng-issue-solution-popup>
+	<!-- ======================= Issues ===================== -->
+	<!-- ======================= Paging ===================== -->
+	<div class="row">
+		<div class="col-md-12 col-sm-12">
+			<nav ng-if="pager.pages.length" aria-label="Page navigation"
+				style="text-align: center !important;">
+				<ul class="pagination">
+					<li ng-class="{disabled:pager.currentPage === 1}"><a
+						ng-click="fetchByStatus(1)" aria-label="Previous"> <span
+							aria-hidden="true">First</span>
+					</a></li>
+					<li ng-class="{disabled:pager.currentPage === 1}"><a
+						ng-click="fetchByStatus(pager.currentPage - 1)"
+						aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+					</a></li>
+					<li ng-repeat="page in pager.pages"
+						ng-class="{active:pager.currentPage === page}"><a
+						ng-click="fetchByStatus(page)">{{page}}</a></li>
+					<li ng-class="{disabled:pager.currentPage === pager.totalPages}">
+						<a ng-click="fetchByStatus(pager.currentPage + 1)"
+						aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+					</a>
+					</li>
+					<li ng-class="{disabled:pager.currentPage === pager.totalPages}">
+						<a ng-click="fetchByStatus(pager.totalPages)"
+						aria-label="Previous"> <span aria-hidden="true">Last</span>
+					</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+		<!-- ======================= Paging ===================== -->
+	<script>
+		
+	</script>
+</div>

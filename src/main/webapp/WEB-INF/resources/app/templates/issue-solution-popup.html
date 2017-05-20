@@ -1,0 +1,96 @@
+<!-- ======================= Issues ===================== -->
+<div class="modal fade" id="issues-modal" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+				</button>
+				<h2 class="modal-title" id="myModalLabel">Issues Class
+					{{currentClass.siteClass.name}}</h2>
+				<form action="" ng-show="authenticated">
+					<div class="col-md-10">
+						<input type="text" class="form-control styleInput"
+							id="issues-input" ng-model="contentNewIssue">
+					</div>
+					<div class="col-md-2">
+						<button ng-click="createIssue(contentNewIssue)"
+							class="btn btn-primary" type="button">Create Issues</button>
+					</div>
+				</form>
+
+			</div>
+			<div class="modal-body">
+				<div ng-if="currentClass.siteClass.listIssue.length == 0">no issue</div>
+				<div ng-if="currentClass.siteClass.listIssue.length > 0"
+					ng-repeat="issue in currentClass.siteClass.listIssue"
+					id="{{issue.id.replace('.', '_')}}_issue_one" class="panel-group" id="accordion">
+					<div class="panel-group" id="accordion" role="tablist"
+						aria-multiselectable="true">
+						<div class="panel-group" id="accordion" role="tablist"
+							aria-multiselectable="true">
+							<div class="panel panel-default">
+
+								<div class="panel-heading headingOne row" role="tab">
+									<div class="col-md-11">
+										<h4 class="panel-title">
+											<a role="button" data-toggle="collapse"
+												class="issue-fixed-part" data-parent="#accordion"
+												data-target="#collapse_{{issue.id.replace('.', '_').replace('.', '_')}}" aria-expanded="true"
+												aria-controls="collapse_{{issue.id.replace('.', '_')}}"> <label
+												ng-click="chooseIssue(issue)" ng-model="issue.content">{{issue.content}}</label>
+											</a>
+											<textarea cols="60" rows="3" class="issue-editable-part"
+												ng-model="issue.content"></textarea>
+											<i class="fa fa-check-square icon-save-issue"
+												ng-click="updateIssue(issue)" aria-hidden="true"></i>
+										</h4>
+									</div>
+									<div class="col-md-1">
+										<i ng-show="authenticated" ng-click="showEditableIssue(issue.id.replace('.', '_'))"
+											class=" edit-issue-icon fa fa-pencil pull-right"
+											aria-hidden="true"></i>
+									</div>
+								</div>
+								<!-- loop solution here -->
+								<div id="collapse_{{issue.id.replace('.', '_').replace('.', '_')}}" class="panel-collapse collapse"
+									role="tabpanel" aria-labelledby="heading_{{issue.id.replace('.', '_')}}">
+									<button class="btn btn-success btn-add pull-right"
+										ng-disabled="listNewSolution.length == 1"
+										ng-click="addRowSolution(issue)" style="margin: 5px"
+										type="button" ng-show="authenticated">
+										<span class="glyphicon glyphicon-plus"></span>
+									</button>
+									<div class="panel-body">
+										<div class="row">
+											<div ng-repeat="solution in issue.listSolution"
+												class="control-group col-sm-11" id="fields">
+												<div class="controls control_{{issue.id.replace('.', '_')}}">
+													<div class="entry input-group col-sm-12">
+														<label id="{{solution.id}}" ng-model="solution.content"
+															ng-mouseover="initEditableSolution(solution.id)"
+															ng-click="chooseSolution(solution.id)">{{solution.content}}</label>
+													</div>
+												</div>
+											</div>
+											<div id="{{issue.id.replace('.', '_')}}_group_solution"
+												class="add-new-solution-group control-group col-sm-11">
+
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+			</div>
+		</div>
+	</div>
+</div>
+<!-- ======================= Issues ===================== -->

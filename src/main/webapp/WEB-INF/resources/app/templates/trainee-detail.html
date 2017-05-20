@@ -1,0 +1,160 @@
+<div class="row">
+
+
+	<div class="trainee" ng-controller="TraineeController">
+		<div class="col-md-6 col-sm-1">
+			<div class="infor border_height">
+				<div class="avatar">
+					<img class="trainee_avatar" alt=""
+						src="{{trainee.imagePath != '' ? 'resources/avatars/' + trainee.imagePath : 'resources/themes/lbd/assets/img/avatar.png'}}">
+
+				</div>
+				<div class="trainee_infor">
+					<p>{{trainee.account }} - {{trainee.fullName }}</p>
+					<p>{{trainee.phone }}</p>
+					<p>{{trainee.email }}</p>
+
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6 col-sm-1">
+			<div class="rank border_height">
+				<div class="row rank_infor">
+					<div id="stars">
+						<span class="star-icon stars_icon"
+							ng-repeat="i in range(trainee.stars) track by $index">&#9734;</span>
+						<p>{{trainee.rank}}</p>
+					</div>
+				</div>
+				<div class="row rank_infor">
+
+					<div class="progress progress-striped active shadow_grade">
+						<div class="progress-bar" id="shadow_grade_1" role="progressbar"
+							aria-valuenow="{{((trainee.finalGrade * 100) / 10 | number: 2) * 1}}"
+							aria-valuemin="0" aria-valuemax="100"
+							style="width: {{((trainee.finalGrade* 100)/10| number: 2)* 1}}%">Final
+							Grade: {{((trainee.finalGrade * 100) / 10 | number: 2) * 1}}%</div>
+					</div>
+				</div>
+				<div class="row rank_infor">
+					<div class="progress progress-striped active shadow_attendence">
+						<div class="progress-bar" id="shadow_attendence_1"
+							role="progressbar" aria-valuenow="100" aria-valuemin="0"
+							aria-valuemax="100" style="width: 100%">Attendance: {{(trainee.listAccessHistory | filter : { status: 'P' } : true).length}}/{{trainee.listAccessHistory.length}}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="trainee-details">
+			<ul class="nav nav-tabs" role="tablist">
+				<li class="active" href="#cmt" role="tab" data-toggle="tab"><a>Comments</a></li>
+				<li href="#score" role="tab" data-toggle="tab"><a>Score</a></li>
+				<li href="#atd" role="tab" data-toggle="tab"><a>Attendance</a></li>
+				<li href="#itw" role="tab" data-toggle="tab"><a>Interview Result</a></li>
+			</ul>
+
+			<!-- Tab panes -->
+			<div class="tab-content">
+				<div class="tab-pane active" id="cmt">
+					<div class="comment-trainee"
+						ng-repeat="comment in trainee.listComment">
+						<div class="row-comment">
+							<div class="col-sm-12">
+								<div class="col-sm-2" style="padding: 0">
+									<img height="120px" width="120px"
+										src="./resources/themes/lbd/assets/img/default-avatar.png">
+								</div>
+								<div class="col-sm-15">
+									<header>
+										<a class="header-info">{{comment.trainer.account }}</a> <span
+											class="pull-right comment-datetime"><a>Date:
+												{{comment.date | date:'dd/MM/yyyy'}}</a></span>
+									</header>
+									<section class="cmt-content" style="margin-top: 10px">
+										<div>
+											<p>{{comment.content }}</p>
+										</div>
+									</section>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane" id="score">
+					<table class="table table-condensed table-responsive ">
+						<thead>
+							<tr>
+								<th>No.</th>
+								<th>Subject Name</th>
+								<th>Point</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="point in trainee.listPoint">
+								<td>{{$index + 1}}</td>
+								<td>{{point.name}}</td>
+								<td>
+									<div class="progress progress-striped shadow_Subject">
+										<div class="progress-bar shadow_Subject_1" role="progressbar"
+											aria-valuenow="{{(point.value * 100) / 10}}"
+											aria-valuemin="0" aria-valuemax="10"
+											style="width:{{(point.value * 100) / 10}}%">{{point.value}}/10</div>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="tab-pane" id="atd">
+					<table class="table table-condensed table-hover table-responsive">
+						<thead>
+							<tr>
+								<th>No.</th>
+								<th>Date</th>
+								<th>Status</th>
+								<th>Note</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="accessHistory in trainee.listAccessHistory">
+								<td>{{$index +1 }}</td>
+								<td>{{accessHistory.date | date:'dd/MM/yyyy'}}</td>
+								<td class="{{accessHistory.status == 'P' ? 'present' : ''}}">{{accessHistory.status }}</td>
+								<td>{{accessHistory.note }}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="tab-pane" id="itw">
+					<table class="table table-condensed table-responsive ">
+						<thead>
+							<tr>
+								<th>No.</th>
+								<th>Skill</th>
+								<th>Level</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="" ng-repeat="skill in trainee.listSkill">
+								<td>{{$index + 1}}</td>
+								<td><label class="label skills">{{skill.name}}</label></td>
+								<td>{{skill.level}}/5</td>
+							</tr>
+
+						</tbody>
+					</table>
+					<div>
+						<div class="col-md=3"></div>
+						<div></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

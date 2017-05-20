@@ -1,0 +1,85 @@
+<div class="row" ng-controller="TraineeController as traineeController">
+	<div ng-if="trainees.length" class="col-sm-12 col-md-12">
+		<h3>Trainees in SRU</h3>
+		<!-- Filter panel -->
+		<div id="filter">
+			<button class="btn btn-primary" type="button" data-toggle="collapse"
+				data-target="#filter-panel" aria-expanded="false"
+				aria-controls="filter-panel">
+				<span class="glyphicon glyphicon-align-justify"></span> Filter
+			</button>
+			<form class="form-inline pull-right" style="display: inline-block;">
+			  <div class="form-group">
+			    <label for="page-size">Page size:</label>
+				<input type="number" min="0" id="page-size" ng-model="traineeController.pageSize" ng-change="changePageSize()" class="form-control"/>
+			  </div>
+			</form>
+			<div class="collapse" id="filter-panel">
+				<div class="well">
+					<form class="row">
+						<div class="form-group col-md-3">
+							<label for="name">Name</label> <input type="text"
+								class="form-control" id="name" ng-model="filterTrainee.fullName">
+						</div>
+						<div class="form-group col-md-3">
+							<label for="account">Account</label> <input type="text"
+								class="form-control" id="account"
+								ng-model="filterTrainee.account">
+						</div>
+						<div class="form-group col-md-3">
+							<label for="rank">Rank</label> <input type="text"
+								class="form-control" id="rank" ng-model="filterTrainee.rank">
+						</div>
+						<div class="form-group col-md-3">
+							<label for="university">University</label> <input
+								type="text" class="form-control" id="rank"
+								ng-model="filterTrainee.university">
+						</div>
+						<hr class="col-md-12" />
+						<div class="form-group col-md-3">
+							<input type="checkbox" ng-model="exactMatch" /> <label
+								for="university">Exact match</label>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		
+		<div class="traine-collection">
+			<div class="contain-trainee-one{{$odd ? ' odd' : ''}}" ng-repeat="trainee in trainees | filter:filterTrainee:exactMatch">
+				<ng-trainee-one-card></ng-trainee-one-card>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<nav ng-if="pager.pages.length" aria-label="Page navigation" style="text-align: center !important;">
+			<ul class="pagination">
+				<li ng-class="{disabled:pager.currentPage === 1}"><a
+					ng-click="getPage(1)" aria-label="Previous"> <span
+						aria-hidden="true">First</span>
+				</a></li>
+				<li ng-class="{disabled:pager.currentPage === 1}"><a
+					ng-click="getPage(pager.currentPage - 1)" aria-label="Previous">
+						<span aria-hidden="true">&laquo;</span>
+				</a></li>
+				<li ng-repeat="page in pager.pages"
+					ng-class="{active:pager.currentPage === page}"><a
+					ng-click="getPage(page)">{{page}}</a></li>
+				<li ng-class="{disabled:pager.currentPage === pager.totalPages}">
+					<a ng-click="getPage(pager.currentPage + 1)" aria-label="Next">
+						<span aria-hidden="true">&raquo;</span>
+				</a>
+				</li>
+				<li ng-class="{disabled:pager.currentPage === pager.totalPages}">
+					<a ng-click="getPage(pager.totalPages)" aria-label="Previous">
+						<span aria-hidden="true">Last</span>
+				</a>
+				</li>
+			</ul>
+		</nav>
+	</div>
+</div>
+
+
+
+
+

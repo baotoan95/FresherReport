@@ -1,0 +1,20 @@
+<div class="col-md-8 div-templates col-md-offset-2" ng-controller="DownloadController" data-ng-init="getListTemplate()">
+
+	<table class="table table-hover table-responsive">
+		<thead>
+			<tr>
+				<th>File name</th>
+				<th>Download</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="fileName in listTemplate">
+				<td>{{fileName }}</td>
+				<td><span class="glyphicon glyphicon-download-alt" ng-click="download(fileName)"> Download</span></td>
+			</tr>
+		</tbody>
+
+	</table>
+</div>
+
+

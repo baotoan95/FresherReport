@@ -1,0 +1,25 @@
+<div class="page-not-found-content">
+	<div id="img-error"></div>
+	<div class="not-found-text">
+		<h1 class="not-found-text">Rất tiếc...</h1>
+	</div>
+	<div id='dog'>
+		<div class="dog-bubble">
+			<p class="dog-message">Không tìm thấy trang.</p>
+		</div>
+	</div>
+	<div id='planet'></div>
+</div>
+<script>
+	var arrText = [ 'Bạn hãy thử đường dẫn khác xem sao.',
+			'Không tìm thấy trang.' ];
+	var arrTextLenght = arrText.length;
+	var count = 0;
+	setInterval(function() {
+		$('.dog-message').text(arrText[count]);
+		count++;
+		if (count == arrTextLenght) {
+			count = 0;
+		}
+	}, 7000);
+</script>

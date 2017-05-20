@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+    xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+    http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd">
+      
+    <beans:bean id="uathenticationEntryPoint" 
+	class="com.fresher.report.security.RestAuthenticationEntryPoint" />
+	<beans:bean id="authenticationFailureHandler" 
+	class="com.fresher.report.security.RestAuthenticationFailureHandler" />
+	<beans:bean id="authenticationSuccessHandler" 
+	class="com.fresher.report.security.RestAuthenticationSuccessHandler" />
+	<beans:bean id="logoutSuccessHandler" 
+	class="com.fresher.report.security.RestLogoutSuccessHandler" />
+      
+    <http auto-config="true" entry-point-ref="uathenticationEntryPoint"
+     authentication-manager-ref="authenticationManager">
+        <intercept-url pattern="/" access="permitAll" />
+        <intercept-url pattern="/home" access="permitAll" />
+        <intercept-url pattern="/admin**" access="hasRole('ADMIN')" />
+        
+        <form-login login-processing-url="/login" 
+        username-parameter="j_username"
+		password-parameter="j_password"
+		authentication-failure-handler-ref="authenticationFailureHandler" 
+		authentication-success-handler-ref="authenticationSuccessHandler"/>
+
+		<logout logout-url="/logout" success-handler-ref="logoutSuccessHandler"/>
+		
+		<csrf disabled="true"/>
+    </http>
+  
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider>
+            <user-service>
+                <user name="admin" password="root123" authorities="ROLE_ADMIN" />
+            </user-service>
+        </authentication-provider>
+    </authentication-manager>
+
+</beans:beans>

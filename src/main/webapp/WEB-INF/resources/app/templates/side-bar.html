@@ -1,0 +1,28 @@
+<div class="sidebar box-shadow-op-2" data-color="azure">
+	<div class="sidebar-wrapper">
+		<div class="logo">
+			<a href="#" class="simple-text"> Fresh Report </a>
+		</div>
+
+		<ul class="nav">
+			<li class="active"><a ui-sref="/"> <i class="pe-7s-graph"></i>
+					<span>Dashboard</span>
+			</a></li>
+			<li><a ui-sref="classes"> <i class="pe-7s-graph"></i> <span>Class
+						management</span>
+			</a></li>
+			<li><a ui-sref="trainees"> <i class="pe-7s-graph"></i> <span>Trainee
+						management</span>
+			</a></li>
+			<li style="display: {{authenticated ? 'block' : 'none'}}"><a ui-sref="list-templates"> <i class="pe-7s-download"></i>
+					<span>Download Templates</span>
+			</a></li>
+		</ul>
+	</div>
+</div>
+<script>
+	$('.sidebar .nav li').click(function() {
+		$('.sidebar .nav li').removeAttr('class');
+		$(this).attr('class', 'active');
+	});
+</script>

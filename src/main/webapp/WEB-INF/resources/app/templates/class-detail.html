@@ -1,0 +1,330 @@
+<div class="fade-in class-details" id="main-section" ng-controller="ClassController">
+	<div class="row">
+		<div class="row class-info">
+			<div class="col-md-7">
+				<div class="box-shadow-op-2 row profile ">
+					<button ng-click="showIssue(aClass.siteClass)"class="show-issue btn btn-warning" type="button" data-toggle="modal"
+											data-target="#issues-modal">
+					<i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+					</button>
+					<ng-issue-solution-popup></ng-issue-solution-popup>
+					<div class="col-xs-12 col-sm-8">
+						<h3 class="name">{{aClass.siteClass.name}}</h3>
+						<div class="row">
+							<div class="col-sm-6 field-content">
+								<p class="field-name">Plan:&nbsp</p>
+								<p class="field-value">
+									<strong> {{aClass.siteClass.planCountStudent}} </strong>
+									students
+								</p>
+							</div>
+							<div class="col-sm-6 field-content">
+								<p class="field-name">Actual:&nbsp</p>
+								<p class="field-value">
+									<strong> {{aClass.siteClass.currentCountStudent}} </strong>
+									students
+								</p>
+							</div>
+						</div>
+						<div class="row">
+							<div class=" col-sm-6 field-content">
+								<p class="field-name">Start:&nbsp</p>
+								<p class="field-value">{{aClass.siteClass.startDate |
+									date:'dd/MM/yyyy'}}</p>
+							</div>
+							<div class=" col-sm-6 field-content">
+								<p class="field-name">End Date:&nbsp</p>
+								<p class="field-value">{{aClass.siteClass.endDate |
+									date:'dd/MM/yyyy'}}</p>
+							</div>
+						</div>
+						<div class="field-content">
+							<p class="field-name">Group Name:&nbsp</p>
+							<p class="field-value">{{aClass.siteClass.group.name}}</p>
+						</div>
+					</div>
+					<div class="col-xs-12 divider text-center">
+						<div class="col-xs-12 col-sm-3 emphasis color-total">
+							<h2>
+								<strong> {{aClass.siteClass.currentCountStudent}} </strong>
+							</h2>
+							<p>
+								<small>Total</small>
+							</p>
+						</div>
+						<div class="col-xs-12 col-sm-3 emphasis color-failed">
+							<h2>
+								<strong>{{aClass.failed }}</strong>
+							</h2>
+							<p>
+								<small>Failed</small>
+							</p>
+						</div>
+						<div class="col-xs-12 col-sm-3 emphasis color-passed">
+							<h2>
+								<strong>{{aClass.passed }}</strong>
+							</h2>
+							<p>
+								<small>Passed</small>
+							</p>
+						</div>
+						<div class="col-xs-12 col-sm-3 emphasis color-drop-out">
+							<h2>
+								<strong>{{aClass.dropOut }}</strong>
+							</h2>
+							<p>
+								<small>Drop out</small>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- ---------------------------------------------- -->
+
+			<div class="col-md-5">
+				<div class="trainer-details">
+					<div class="trainer-image">
+						<img width="95" height="105" src="http://placehold.it/150"
+							alt="no avatar" title="Karan Singh Sisodia" class="img-circle">
+					</div>
+					<div class="box-shadow-op-1 trainer-info-block">
+						<div class="trainer-heading">
+							<h3>{{aClass.siteClass.headTeacher.fullName }}</h3>
+						</div>
+						<ul class="navigation">
+							<li class="active" data-toggle="tab" href="#information"><a>
+									<span>Account</span>
+							</a></li>
+							<li href="#tel" data-toggle="tab"><a> <span>Phone</span>
+							</a></li>
+							<li data-toggle="tab" href="#settings"><a><span>Email</span>
+							</a></li>
+							<li data-toggle="tab" href="#skill"><a> <span>Skill</span>
+							</a></li>
+
+						</ul>
+						<div class="trainer-body">
+							<div class="tab-content">
+								<div id="information" class="tab-pane active">
+									<h4>{{aClass.siteClass.headTeacher.account }}</h4>
+								</div>
+								<div id="settings" class="tab-pane">
+									<h4>{{aClass.siteClass.headTeacher.email }}</h4>
+								</div>
+								<div id="skill" class="tab-pane">
+									<span class="label label-default">Java</span> <span
+										class="label label-default">MongoDB</span> <span
+										class="label label-default">Hibernate</span> <span
+										class="label label-default">Spring MVC</span> <span
+										class="label label-default">AngularJS</span>
+								</div>
+								<div id="tel" class="tab-pane">
+									<h4>{{aClass.siteClass.headTeacher.phone }}</h4>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Import class information -->
+				<div class="modal fade" id="import-class-info" tabindex="-1"
+					role="dialog" aria-labelledby="myModalLabel">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<h4 class="modal-title" id="import-class-info">Import Class Information</h4>
+							</div>
+							<div class="modal-body">
+								<form name="formUploadClassInfo">
+									<input type="file" ngf-select ng-model="classInfoFile" name="file" accept=".xlsx" ngf-max-size="2MB" required ngf-model-invalid="errorFile">
+									<i ng-show="formUploadClassInfo.file.$error.required">*required</i>
+									<br>
+									<span ng-show="classInfoFile.result">Upload Successful</span> 
+									<span class="err" ng-show="errorMsg">{{errorMsg}}</span>
+								</form>
+							</div>
+							<div class="modal-body">
+								<div class="form-group">
+									<div id="progress" class="progress">
+										<div class="progress-bar" role="progressbar" aria-valuemin="0"
+											aria-valuemax="100" style="width: {{classInfoFile.progress}}%"
+											ng-bind="classInfoFile.progress + '%'"></div>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button class="btn btn-default" ng-disabled="!formUploadClassInfo.$valid"
+									ng-click="uploadClassInfo(classInfoFile, aClass.siteClass.id)">Upload</button>
+								<button class="btn btn-default" data-dismiss="modal">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Import head teacher -->
+				<div class="modal fade" id="import-head-teacher" tabindex="-1"
+					role="dialog" aria-labelledby="myModalLabel">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<h4 class="modal-title" id="myModalLabel">Import Trainer</h4>
+							</div>
+							<div class="modal-body">
+								<form name="formHeadTeacher">
+									<input type="file" ngf-select ng-model="headTeacherFile" name="file" accept=".xlsx" ngf-max-size="2MB" required ngf-model-invalid="errorFile">
+									<i ng-show="formHeadTeacher.file.$error.required">*required</i>
+									<br>
+									<span ng-show="headTeacherFile.result">Upload Successful</span> 
+									<span class="err" ng-show="errorMsg">{{errorMsg}}</span>
+								</form>
+							</div>
+							<div class="modal-body">
+								<div class="form-group">
+									<div id="progress" class="progress">
+										<div class="progress-bar" role="progressbar" aria-valuemin="0"
+											aria-valuemax="100" style="width: {{headTeacherFile.progress}}%"
+											ng-bind="headTeacherFile.progress + '%'"></div>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button class="btn btn-default" ng-disabled="!formHeadTeacher.$valid"
+									ng-click="uploadHeadTeacher(headTeacherFile, aClass.siteClass.id)">Upload</button>
+								<button class="btn btn-default" data-dismiss="modal">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<!-- Import interview result -->
+				<div class="modal fade" id="import-interview-result" tabindex="-1"
+					role="dialog" aria-labelledby="myModalLabel">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<h4 class="modal-title" id="myModalLabel">Import Interview Result</h4>
+							</div>
+							<div class="modal-body">
+								<form name="formInterviewResult">
+									<input type="file" ngf-select ng-model="interviewResultFile" name="file" accept=".xlsx" ngf-max-size="2MB" required ngf-model-invalid="errorFile">
+									<i ng-show="formInterviewResult.file.$error.required">*required</i>
+									<br>
+									<span ng-show="interviewResultFile.result">Upload Successful</span> 
+									<span class="err" ng-show="errorMsg">{{errorMsg}}</span>
+								</form>
+							</div>
+							<div class="modal-body">
+								<div class="form-group">
+									<div id="progress" class="progress">
+										<div class="progress-bar" role="progressbar" aria-valuemin="0"
+											aria-valuemax="100" style="width: {{interviewResultFile.progress}}%"
+											ng-bind="interviewResultFile.progress + '%'"></div>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button class="btn btn-default" ng-disabled="!formInterviewResult.$valid"
+									ng-click="uploadInterviewResult(interviewResultFile, aClass.siteClass.id)">Upload</button>
+								<button class="btn btn-default" data-dismiss="modal">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<!-- Import attendance -->
+				<div class="modal fade" id="import-attendance" tabindex="-1"
+					role="dialog" aria-labelledby="myModalLabel">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<h4 class="modal-title" id="myModalLabel">Import Attendance</h4>
+							</div>
+							<div class="modal-body">
+								<form name="formAttendance">
+									<input type="file" ngf-select ng-model="attendanceFile" name="file" accept=".xlsx" ngf-max-size="2MB" required ngf-model-invalid="errorFile">
+									<i ng-show="formAttendance.file.$error.required">*required</i>
+									<br>
+									<span ng-show="attendanceFile.result">Upload Successful</span> 
+									<span class="err" ng-show="errorMsg">{{errorMsg}}</span>
+								</form>
+							</div>
+							<div class="modal-body">
+								<div class="form-group">
+									<div id="progress" class="progress">
+										<div class="progress-bar" role="progressbar" aria-valuemin="0"
+											aria-valuemax="100" style="width: {{attendanceFile.progress}}%"
+											ng-bind="attendanceFile.progress + '%'"></div>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button class="btn btn-default" ng-disabled="!formAttendance.$valid"
+									ng-click="uploadAttendance(attendanceFile, aClass.siteClass.id)">Upload</button>
+								<button class="btn btn-default" data-dismiss="modal">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row" ng-show="authenticated">
+		<div class="col-sm-12 col-md-12">
+			<button type="button" class="btn btn-primary pull-right"
+				data-toggle="modal" data-target="#import-head-teacher"
+				style="margin-right: 5px;">Import
+				Head Teacher</button>
+			<button ng-show="aClass.siteClass.group.name != 'Internship'" type="button" class="btn btn-primary pull-right"
+				data-toggle="modal" data-target="#import-class-info"
+				style="margin: 0 10px 20px 10px;">Import
+				Class Infor</button>
+			<button type="button" class="btn btn-primary pull-right"
+				data-toggle="modal" data-target="#import-interview-result"
+				style="margin: 0 10px 20px 10px;">Import
+				Interview Result</button>
+			<button type="button" class="btn btn-primary pull-right"
+				data-toggle="modal" data-target="#import-attendance"
+				style="margin: 0 10px 20px 10px;">Import
+				Attendance</button>
+		</div>
+	</div>
+
+	<div class="row">
+		<a class="btn btn-lg style bnt-liststyle"
+			ng-class="{'background-list':typeShow == 'card'}"> <span
+			class="glyphicon glyphicon-th-large bnt-icon"
+			ng-click="changeShowType('card')"></span>
+		</a> <a class="btn btn-lg style bnt-liststyle"
+			ng-class="{'background-list':typeShow == 'list'}"> <span
+			class="glyphicon glyphicon-th-list bnt-icon"
+			ng-click="changeShowType('list')"></span>
+		</a>
+
+		<ng-trainee-one-row ng-if="typeShow == 'list'"></ng-trainee-one-row>
+		<div class="row" ng-if="typeShow == 'card'">
+			<div class="traine-collection">
+				<div class="contain-trainee-one box-shadow-op-2" ng-repeat="trainee in aClass.trainees">
+					<ng-trainee-one-card></ng-trainee-one-card>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>

@@ -1,0 +1,27 @@
+<div class="trainee-one box-shadow-op-2">
+	<div class="col-sm-6 col-md-4">
+		<div class="avatar">
+			<img src="{{trainee.imagePath != '' ? 'resources/avatars/' + trainee.imagePath : 'resources/themes/lbd/assets/img/avatar.png'}}" 
+			alt="Avatar" class="img-circle img-responsive" />
+		</div>
+		<div class="stars-content">
+			<span class="star-icon"
+				ng-repeat="i in range(trainee.stars) track by $index">&#9734</span>
+		</div>
+	</div>
+	<div class="col-sm-6 col-md-8">
+		<h4>
+			<i class="fa fa-user" aria-hidden="true"></i> <strong> <a
+				href="#/trainee-detail/{{trainee.id }}">{{trainee.fullName }}</a>
+			</strong>
+		</h4>
+		<p>
+			<i class="glyphicon glyphicon-info-sign" aria-hidden="true"> </i>Account:
+			{{trainee.account }}<br /> <i class="fa fa-graduation-cap"
+				aria-hidden="true"></i> Rank: {{trainee.rank }}<br /> <i
+				class="glyphicon glyphicon-envelope"></i> Email: <a href="#">
+				{{trainee.email }}</a><br /> <i class="fa fa-university"
+				aria-hidden="true"></i> University: {{trainee.university }}
+		</p>
+	</div>
+</div>

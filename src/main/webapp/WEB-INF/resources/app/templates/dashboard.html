@@ -1,0 +1,185 @@
+<div class="container-fluid fade-in" id="main-section"
+	ng-controller="GroupController as $ctrl">
+	<div class="row" data-ng-init="showStatistic()">
+		<div class="col-sm-5">
+			<adm-dtp ng-model="$ctrl.fromDate" full-data="date11_detail"
+				maxdate="{{date12_detail.unix}}"
+				options='{calType: "gregorian", format: "YYYY-MM-DD"}'></adm-dtp>
+		</div>
+		<div class="col-sm-5">
+			<adm-dtp ng-model="$ctrl.toDate" full-data="date12_detail"
+				mindate="{{date11_detail.unix}}"
+				options='{calType: "gregorian", format: "YYYY-MM-DD"}'></adm-dtp>
+		</div>
+		<div class="col-sm-2 text-right">
+			<a class="btn btn-info" role="button" ng-click='showStatistic()'>Show Report</a>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">{{groupNameSelected }}'s issues</h4>
+				</div>
+				<div class="panel-group" style="height: 500px; overflow: scroll;" id="accordion" role="tablist" aria-multiselectable="true">
+					<div class="panel panel-default" ng-repeat="issue in listClassIssueSelected">
+						<div title="{{issue.dateUpdate | date:'dd/MM/yyyy'}}" class="panel-heading" role="tab" id="heading${{index}}">
+							<h4 style="text-align: left;" class="panel-title" role="button" class="collapsed" data-toggle="collapse" data-parent="#accordion"
+									href="#collapse{{$index}}" aria-expanded="false"
+									aria-controls="collapse{{$index}}"><b>#Issue: </b> {{issue.content }}
+							</h4>
+						</div>
+						<div id="collapse{{$index}}" class="panel-collapse collapse"
+							role="tabpanel" aria-labelledby="heading${{index}}">
+							<div class="panel-body">
+								<table class="table table-bordered">
+									<thead>
+										<tr>
+											<th>Solution</th>
+											<th>Create Date</th>
+											<th>Last Update</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="solution in issue.listSolution">
+											<td>{{solution.content}}</td>
+											<td>{{solution.dateCreate | date:'dd/MM/yyyy'}}</td>
+											<td>{{solution.dateUpdate | date:'dd/MM/yyyy'}}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div ng-repeat="groupDTO in groups">
+		<div class="row">
+			<div class="col-sm-6">
+				<h3>{{groupDTO.group.name }} statistic</h3>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6">
+				<div
+					class="col-md-12 panel panel-default chart-container box-shadow-op-2">
+					<div class="panel-heading">
+					<p>Class</p>
+						<button class="pull-right btn btn-primary btn-success btn-show-list-issue"
+							ng-click="showListIssue(groupDTO.listClassIssues, groupDTO.group.name)"
+							data-toggle="modal" data-target="#myModal">Issues</button>
+					</div>
+					<div class="row chart-one">
+						<canvas id="pie" class="chart chart-pie" chart-colors="colors"
+							chart-data="[groupDTO.group.classStatistic.total - groupDTO.group.classStatistic.release - groupDTO.group.classStatistic.running, groupDTO.group.classStatistic.release, groupDTO.group.classStatistic.running]"
+							chart-labels="labels" chart-options="options">
+						</canvas>
+					</div>
+					<div class="row parameter-statistic">
+						<div id="counter" class="row">
+							<div class="col-md-3">
+								<a class="color-total" href="#/classes/{{groupDTO.group.name}}/total/{{$ctrl.fromDate}}/{{$ctrl.toDate}}"> <span
+									class="count color-total"
+									count-to="{{groupDTO.group.classStatistic.total}}" value="0"
+									duration="0.5"></span>
+									<h5>Total</h5>
+								</a>
+							</div>
+							<div class="col-md-3">
+								<div class="color-waiting">
+									<div class="count color-waiting" contenteditable="{{authenticated}}"
+										style="position: relative;"
+										count-to="{{groupDTO.group.classStatistic.total - groupDTO.group.classStatistic.release - groupDTO.group.classStatistic.running}}"
+										value="0" duration="0.5" onkeypress="return (this.innerText.length <= 256)"
+										ng-blur="updateStatistic(groupDTO.group.id, 'class', $event)"></div>
+									<h5>Waiting</h5>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<a class="color-release" href="#/classes/{{groupDTO.group.name}}/Done/{{$ctrl.fromDate}}/{{$ctrl.toDate}}"> <span
+									class="count color-release"
+									count-to="{{groupDTO.group.classStatistic.release}}" value="0"
+									duration="0.5"></span>
+									<h5>Release</h5>
+								</a>
+							</div>
+							<div class="col-md-3">
+								<a class="color-running" href="#/classes/{{groupDTO.group.name}}/In progress/{{$ctrl.fromDate}}/{{$ctrl.toDate}}"> <span
+									class="count color-running"
+									count-to="{{groupDTO.group.classStatistic.running}}" value="0"
+									duration="0.5"></span>
+									<h5>Running</h5>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-6">
+				<div
+					class="col-md-12 panel panel-default chart-container box-shadow-op-2">
+					<div class="panel-heading"><p>Person</p></div>
+					<div class="row chart-one">
+						<canvas id="pie" class="chart chart-pie" chart-colors="colors"
+							chart-data="[groupDTO.group.personStatistic.total-(groupDTO.group.personStatistic.release + groupDTO.group.personStatistic.running), groupDTO.group.personStatistic.release, groupDTO.group.personStatistic.running]"
+							chart-labels="labels" chart-options="options">
+						</canvas>
+					</div>
+
+					<div class="row parameter-statistic">
+						<div id="counter" class="row">
+							<div class="col-md-3">
+								<a class="color-total" href="#/trainees/{{groupDTO.group.name}}/total"> <span
+									class="count color-total"
+									count-to="{{groupDTO.group.personStatistic.total}}" value="0"
+									duration="0.5"></span>
+									<h5>Total</h5>
+								</a>
+							</div>
+							<div class="col-md-3">
+								<div class="color-waiting">
+									<div class="count color-waiting" contenteditable="{{authenticated}}"
+										style="position: relative;"
+										count-to="{{groupDTO.group.personStatistic.total
+										- (groupDTO.group.personStatistic.release +
+										groupDTO.group.personStatistic.running)}}"
+										value="0" duration="0.5"
+										ng-blur="updateStatistic(groupDTO.group.id, 'person', $event)"></div>
+									<h5>Waiting</h5>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<a class="color-release" href="#/trainees/{{groupDTO.group.name}}/Done"> <span
+									class="count color-release"
+									count-to="{{groupDTO.group.personStatistic.release}}" value="0"
+									duration="0.5"></span>
+									<h5>Release</h5>
+								</a>
+							</div>
+							<div class="col-md-3">
+								<a class="color-running" href="#/trainees/{{groupDTO.group.name}}/In progress"> <span
+									class="count color-running"
+									count-to="{{groupDTO.group.personStatistic.running}}" value="0"
+									duration="0.5"></span>
+									<h5>Running</h5>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

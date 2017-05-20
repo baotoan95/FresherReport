@@ -1,0 +1,5 @@
+<div ng-repeat="solution in listNewSolution">
+	<label id="{{solution.id}}"
+		ng-mouseover="initEditableSolution(solution.id)"
+		ng-click="chooseSolution(solution.id)">{{solution.content}}</label>
+</div>
